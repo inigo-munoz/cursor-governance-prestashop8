@@ -1,0 +1,50 @@
+id: lesson.security.sql-injection-pattern-example
+domain: security
+
+source:
+  type: production-bug
+  description: SQL inseguro detectado en un módulo legacy (ejemplo placeholder).
+
+problem:
+  description: >
+    Un desarrollador concatenó SQL dinámico con inputs sin seguir los patrones
+    seguros del stack.
+
+impact:
+  severity: critical
+  scope: module
+
+root_cause:
+  description: >
+    La revisión no aplicó el checklist de seguridad y la implementación evitó
+    la capa de acceso a datos recomendada por los estándares.
+
+recommended_action:
+  type: checklist-improvement
+  target:
+    type: checklist
+    name: security-review.yml
+
+links:
+  rules:
+    - security/prestashop-security.md
+    - rules/prestashop-main-rule.md
+  checklists:
+    - checklists/security-review.yml
+    - checklists/service-layer-review.yml
+  skills:
+    - skills/security-audit.yml
+    - skills/ai-review.yml
+
+actions:
+  remediation:
+    - Refactorizar el código afectado para eliminar concatenación de SQL y
+      aplicar el patrón de acceso a datos definido por el stack.
+    - Añadir validación/normalización de inputs antes de llegar a la capa de
+      persistencia.
+  governance_changes:
+    - Recomendación: reforzar `checklists/security-review.yml` con un paso
+      explícito para detectar SQL dinámico en rutas críticas.
+    - Recomendación: añadir un escenario mínimo en `tests/` que represente este
+      patrón para evitar regresiones de gobernanza.
+

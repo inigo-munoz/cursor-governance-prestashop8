@@ -1,0 +1,30 @@
+# Governance validation: subagents format (Cursor 2.4)
+# Ensures each subagent in agents/ uses the correct .md format with YAML frontmatter.
+#
+# Note: The previous format (agents/*.yml referencing skills/*.yml) was deprecated
+# in favor of Cursor 2.4 native subagents (.md with YAML frontmatter).
+#
+# Result: pass | fail
+# Fail when: an agent file is missing required frontmatter fields.
+
+validation: agent-format-check
+description: Each subagent in agents/ must be a .md file with valid Cursor 2.4 frontmatter.
+
+rules:
+  - name: agent_is_markdown
+    description: Each agent file (excluding README.md) must have .md extension.
+
+  - name: agent_has_name
+    description: Each agent .md must have a 'name:' field in YAML frontmatter.
+
+  - name: agent_has_description
+    description: Each agent .md must have a 'description:' field in YAML frontmatter.
+
+  - name: agent_has_model
+    description: Each agent .md must have a 'model:' field (fast, inherit, or specific model).
+
+  - name: agent_has_readonly
+    description: Audit subagents should have 'readonly: true' to prevent accidental modifications.
+
+  - name: no_yml_agents
+    description: No .yml files should exist in agents/ — legacy format not supported in Cursor 2.4.

@@ -1,0 +1,86 @@
+# Governance — Stack Manifest
+# Fuente de verdad para el CLI — describe el stack de forma autodocumentada
+# El CLI lee esta sección para generar rules, globs y configurar el proyecto
+
+stack:
+  id: prestashop8
+  name: "PrestaShop 8.x"
+  label: "PrestaShop 8.x"
+  legacy: false
+  recommended: true
+  eol: null
+
+# ── Sección leída por el CLI ────────────────────────────────────────
+cli:
+  main_rule: rules/prestashop-main-rule.md
+
+  security:
+    file: security/prestashop-security.md
+    reference: security/prestashop-security-reference.md
+    globs: "**/*.php,**/*.tpl"
+    description: "Cursor Governance PrestaShop 8 security rules — SQL injection, CSRF, uploads, locking"
+
+  modules:
+    file: architecture/prestashop-legacy-architecture.md
+    globs: "modules/vendor_*/**,modules/Iagt_*/**"
+    description: "Cursor Governance PrestaShop 8 architecture, Service Layer, naming conventions"
+    additional:
+      - conventions/coding-conventions.md
+      - context/prestashop-iagt-context.md
+      - standards/prestashop-development-standards.md
+
+  hooks:
+    scan_extensions: [".php", ".tpl"]
+    scan_script: governance-php-scan.sh
+
+# ── Documentación canónica del stack (sin cambios) ──────────────────
+documents:
+  canonical:
+    main_rule: rules/prestashop-main-rule.md
+    security: security/prestashop-security.md
+    architecture: architecture/prestashop-legacy-architecture.md
+    multishop: multishop/multishop-data-model.md
+    standards: standards/prestashop-development-standards.md
+    conventions: conventions/coding-conventions.md
+    patterns:
+      - patterns/prestashop-enterprise-hardened-v2.0.md
+    workflow: workflow/governance-workflow.md
+    taxonomy: taxonomy.md
+
+directories:
+  required:
+    - rules
+    - security
+    - architecture
+    - standards
+    - conventions
+    - patterns
+    - multishop
+    - context
+    - workflow
+    - commands
+    - scripts
+
+extensions:
+  - checklists
+  - skills
+  - agents
+  - commands
+  - lessons
+  - tests
+  - manifest
+
+precedence:
+  order:
+    - security
+    - main_rule
+    - architecture
+    - multishop
+    - standards
+    - patterns
+    - conventions
+    - workflow
+    - checklists
+    - commands
+    - skills
+    - lessons

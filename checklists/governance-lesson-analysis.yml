@@ -1,0 +1,16 @@
+id: checklist.governance-lesson-analysis
+domain: governance
+purpose: Evaluar lessons y recomendar mejoras de gobernanza (sin automatizar cambios).
+
+steps:
+  - identificar el dominio de gobernanza afectado
+  - determinar si la checklist existente ya detecta el problema descrito
+  - determinar si falta cobertura (nuevo paso/checklist) o claridad documental
+  - evaluar impacto potencial en skills y commands
+  - producir recomendaciones accionables para maintainers (vía PR)
+
+expected_findings:
+  - missing checklist coverage
+  - insufficient rule clarity
+  - missing architectural guidance
+

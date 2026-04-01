@@ -1,0 +1,107 @@
+id: checklist.service_layer_review
+name: Service Layer Review – PrestaShop
+domain: architecture
+purpose: Validar la arquitectura y límites del Service Layer del módulo.
+description: >
+  Checklist para revisar que la arquitectura de Service Layer cumple el modelo
+  legacy controlado del stack, separando correctamente controladores/hooks de
+  la lógica de negocio y el acceso a datos.
+
+references_contract:
+  - rules/prestashop-main-rule.md
+  - architecture/prestashop-legacy-architecture.md
+  - standards/prestashop-development-standards.md
+  - conventions/coding-conventions.md
+  - patterns/prestashop-enterprise-hardened-v2.0.md
+  - patterns/prestashop-enterprise-hardened-v2.0.md
+  - security/prestashop-security.md
+
+steps_contract:
+  - verificar que controllers y hooks no contienen lógica de negocio ni SQL directo
+  - comprobar que existe un Service Layer claro y centraliza la lógica de negocio
+  - validar que el acceso a datos se encapsula en repositorios según estándares
+  - aplicar patrones enterprise cuando el caso lo requiera (concurrencia/integraciones críticas)
+  - confirmar que las restricciones de seguridad se aplican dentro del Service Layer
+
+expected_findings:
+  - lógica de negocio en controller/hook/template
+  - acceso directo a BD fuera de repositorios/servicios
+  - ausencia de Service Layer o fronteras difusas
+  - violación de capas (dependencias incorrectas)
+  - falta de aplicación de patrones enterprise cuando aplica
+
+references:
+  main_rule: rules/prestashop-main-rule.md
+  architecture: architecture/prestashop-legacy-architecture.md
+  standards: standards/prestashop-development-standards.md
+  conventions: conventions/coding-conventions.md
+  patterns:
+    - patterns/prestashop-enterprise-hardened-v2.0.md
+    - patterns/prestashop-enterprise-hardened-v2.0.md
+  security: security/prestashop-security.md
+
+steps:
+  - id: controller_responsibilities
+    title: Responsabilidades de controllers y hooks
+    mandatory: true
+    description: >
+      Validar que controllers y hooks se limitan a coordinar la petición y NO
+      contienen lógica de negocio ni acceso directo a la base de datos.
+    checks:
+      - type: reference
+        document: architecture/prestashop-legacy-architecture.md
+        section: "Hooks y controllers"
+      - type: reference
+        document: rules/prestashop-main-rule.md
+        section: "Lógica de negocio fuera de hooks"
+
+  - id: service_layer_boundaries
+    title: Fronteras claras del Service Layer
+    mandatory: true
+    description: >
+      Comprobar que existe una capa de servicios bien definida que encapsula
+      la lógica de negocio, integra con repositorios y validadores y expone
+      métodos de alto nivel.
+    checks:
+      - type: reference
+        document: architecture/prestashop-legacy-architecture.md
+        section: "Service Layer"
+      - type: reference
+        document: standards/prestashop-development-standards.md
+        section: "Servicios, repositorios y validadores"
+
+  - id: repository_usage
+    title: Uso de repositorios para acceso a datos
+    mandatory: true
+    description: >
+      Verificar que el acceso a la base de datos se realiza a través de
+      repositorios y que no hay SQL directo en la capa de servicio o por
+      encima.
+    checks:
+      - type: reference
+        document: standards/prestashop-development-standards.md
+        section: "Acceso a datos"
+
+  - id: enterprise_patterns
+    title: Patrones enterprise aplicados cuando corresponda
+    mandatory: false
+    description: >
+      Cuando el caso lo requiera (integraciones críticas, alta concurrencia,
+      stock, checkout), revisar que los patrones enterprise del stack se
+      aplican en la capa de servicios.
+    checks:
+      - type: reference
+        document: patterns/prestashop-enterprise-hardened-v2.0.md
+        section: "Patrones enterprise hardened"
+
+  - id: security_constraints
+    title: Restricciones de seguridad en el Service Layer
+    mandatory: true
+    description: >
+      Confirmar que las reglas de seguridad (validación, permisos, logging,
+      locking, etc.) se respetan dentro de la capa de servicios según el stack.
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "Aplicación de seguridad en servicios"
+

@@ -1,0 +1,16 @@
+# Governance validation: skill → checklist references
+# Ensures every skill references valid checklists.
+#
+# Result: pass | fail
+# Fail when: a skill file is missing, or a referenced checklist path does not exist.
+
+validation: skill-references
+description: Ensure every skill references valid checklists.
+
+rules:
+  - name: skill_file_exists
+    description: Each skill file under skills/ must exist.
+  - name: referenced_checklist_exists
+    description: Every path in uses_checklists or checklists must resolve to an existing file under checklists/.
+  - name: checklist_path_resolves
+    description: Checklist path must be resolvable from repository root (e.g. checklists/name.yml).

@@ -1,0 +1,52 @@
+id: lesson.architecture.business-logic-in-controller-example
+domain: architecture
+
+source:
+  type: code-review
+  description: Hallazgo recurrente en review: lógica de negocio en controllers/hooks.
+
+problem:
+  description: >
+    Se introdujo lógica de negocio significativa en controllers y hooks, en
+    lugar de concentrarla en la Service Layer según el modelo del stack.
+
+impact:
+  severity: high
+  scope: module
+
+root_cause:
+  description: >
+    Falta de aplicación consistente del checklist de Service Layer durante el
+    proceso de revisión, y ausencia de un punto explícito de control en el
+    workflow del equipo.
+
+recommended_action:
+  type: skill-improvement
+  target:
+    type: skill
+    name: service-layer-audit.yml
+
+links:
+  rules:
+    - architecture/prestashop-legacy-architecture.md
+    - rules/prestashop-main-rule.md
+  checklists:
+    - checklists/service-layer-review.yml
+    - checklists/module-generation.yml
+  skills:
+    - skills/service-layer-audit.yml
+    - skills/ai-review.yml
+
+actions:
+  remediation:
+    - Extraer la lógica de negocio de controllers y hooks hacia servicios
+      dedicados, alineados con el modelo de Service Layer.
+    - Añadir cobertura de tests adecuada para la nueva capa de servicios.
+  governance_changes:
+    - Recomendación: mejorar `skills/service-layer-audit.yml` para priorizar
+      detección de lógica en controllers/hooks en cambios que toquen esos
+      ficheros.
+    - Recomendación: añadir en `workflow/governance-workflow.md` un punto de
+      feedback loop que convierta estos hallazgos en lessons y mejoras de
+      checklists/skills con revisión humana.
+

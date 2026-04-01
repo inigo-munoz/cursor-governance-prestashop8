@@ -1,0 +1,4 @@
+expected_findings:
+  - SQL injection risk
+  - missing input validation
+

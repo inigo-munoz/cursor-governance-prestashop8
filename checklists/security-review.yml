@@ -1,0 +1,99 @@
+id: checklist.security_review
+name: Security Review – PrestaShop
+domain: security
+purpose: Validar el cumplimiento de seguridad del módulo según el stack.
+description: >
+  Checklist de revisión de seguridad para cambios en módulos y componentes
+  PrestaShop, alineada con la normativa de seguridad v2.0 del stack.
+
+references_contract:
+  - security/prestashop-security.md
+  - rules/prestashop-main-rule.md
+  - standards/prestashop-development-standards.md
+  - architecture/prestashop-legacy-architecture.md
+
+steps_contract:
+  - validar sanitización y validación de inputs
+  - revisar uso de SQL y acceso a datos
+  - verificar protecciones XSS/CSRF en vistas y endpoints
+  - revisar integraciones externas (validación, logging, idempotencia/locking cuando aplique)
+  - verificar permisos y autorización para acciones sensibles
+
+expected_findings:
+  - riesgo de SQL injection
+  - falta de validación de inputs
+  - exposición a XSS
+  - falta de protección CSRF
+  - validación insuficiente de respuestas de API externa
+  - logging de datos sensibles
+  - control de acceso/permisos insuficiente
+
+references:
+  security: security/prestashop-security.md
+  main_rule: rules/prestashop-main-rule.md
+  standards: standards/prestashop-development-standards.md
+  architecture: architecture/prestashop-legacy-architecture.md
+
+steps:
+  - id: inputs_validation
+    title: Validación de entradas externas
+    mandatory: true
+    description: >
+      Verificar que todas las entradas externas (HTTP, CLI, colas, integraciones)
+      se validan y normalizan según las reglas del stack.
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "Validación de inputs"
+
+  - id: sql_safety
+    title: Uso seguro de SQL
+    mandatory: true
+    description: >
+      Confirmar que no hay SQL inseguro (sin parámetros, sin escape adecuado) y
+      que se siguen las recomendaciones del stack para acceso a datos.
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "Protección frente a SQL injection"
+      - type: reference
+        document: standards/prestashop-development-standards.md
+        section: "Acceso a datos y SQL"
+
+  - id: xss_and_csrf
+    title: Protección frente a XSS y CSRF
+    mandatory: true
+    description: >
+      Revisar vistas, templates y endpoints para garantizar que se aplican las
+      medidas de protección frente a XSS y CSRF definidas por el stack.
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "XSS y CSRF"
+
+  - id: external_integrations
+    title: Integraciones externas y APIs
+    mandatory: true
+    description: >
+      Validar que las integraciones con APIs externas o sistemas como SAP
+      respetan las reglas de validación, logging, idempotencia y locking del
+      stack.
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "Integraciones externas"
+      - type: reference
+        document: patterns/prestashop-enterprise-hardened-v2.0.md
+        section: "Integraciones críticas"
+
+  - id: permissions_and_authorization
+    title: Permisos y autorización
+    mandatory: true
+    description: >
+      Comprobar que el acceso a acciones administrativas o sensibles está
+      protegido por controles de permisos y autorización adecuados.
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "Permisos y control de acceso"
+

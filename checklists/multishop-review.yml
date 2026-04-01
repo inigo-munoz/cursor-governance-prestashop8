@@ -1,0 +1,94 @@
+id: checklist.multishop_compliance
+name: Multishop Compliance – PrestaShop
+domain: multishop
+purpose: Validar el cumplimiento del modelo multishop en datos y contexto.
+description: >
+  Checklist para validar que el código cumple el modelo multitienda definido
+  por el stack (contexto de tienda, modelo de datos y operaciones seguras en
+  entornos con múltiples shops).
+
+references_contract:
+  - multishop/multishop-data-model.md
+  - architecture/prestashop-legacy-architecture.md
+  - standards/prestashop-development-standards.md
+  - rules/prestashop-main-rule.md
+  - security/prestashop-security.md
+
+steps_contract:
+  - verificar uso correcto del contexto de tienda (SHOP/GROUP/ALL)
+  - revisar que consultas y escrituras filtran por tienda según el modelo
+  - validar configuración por tienda/grupo cuando aplique
+  - revisar migraciones/cambios de esquema multishop cuando aplique
+  - confirmar aislamiento de datos entre tiendas
+
+expected_findings:
+  - consultas sin filtro `id_shop` (o equivalente del modelo)
+  - uso incorrecto de `getContextShopID()` en CONTEXT_ALL
+  - configuración no aislada por tienda
+  - migraciones que pierden asociaciones de tienda
+  - exposición de datos entre tiendas
+
+references:
+  multishop: multishop/multishop-data-model.md
+  architecture: architecture/prestashop-legacy-architecture.md
+  standards: standards/prestashop-development-standards.md
+  main_rule: rules/prestashop-main-rule.md
+  security: security/prestashop-security.md
+
+steps:
+  - id: shop_context_usage
+    title: Uso correcto del contexto de tienda
+    mandatory: true
+    description: >
+      Verificar que se usa el contexto de tienda correcto en todas las
+      operaciones que lean o escriban datos dependientes de tienda.
+    checks:
+      - type: reference
+        document: multishop/multishop-data-model.md
+        section: "Contexto de tienda"
+
+  - id: database_filters
+    title: Filtros multishop en consultas
+    mandatory: true
+    description: >
+      Confirmar que todas las consultas a base de datos que afectan a datos
+      multitienda filtran de acuerdo al modelo (`id_shop`, `id_shop_group`,
+      tablas asociadas, etc.).
+    checks:
+      - type: reference
+        document: multishop/multishop-data-model.md
+        section: "Filtrado por tienda"
+
+  - id: configuration_per_shop
+    title: Configuración por tienda
+    mandatory: true
+    description: >
+      Revisar que la configuración del módulo o funcionalidad soporta
+      correctamente valores por tienda y por grupo de tiendas cuando aplique.
+    checks:
+      - type: reference
+        document: standards/prestashop-development-standards.md
+        section: "Configuración multitienda"
+
+  - id: data_migrations
+    title: Migraciones y cambios de esquema multishop
+    mandatory: false
+    description: >
+      Cuando haya migraciones o cambios de esquema, validar que se respeta el
+      modelo multishop y que no se pierden asociaciones de tienda.
+    checks:
+      - type: reference
+        document: standards/prestashop-development-standards.md
+        section: "Migraciones y esquema multishop"
+
+  - id: security_visibility
+    title: Aislamiento de datos entre tiendas
+    mandatory: true
+    description: >
+      Confirmar que no es posible exponer datos de una tienda a otra de forma
+      no autorizada, respetando las reglas de seguridad y el modelo multishop.
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "Aislamiento de datos"
+

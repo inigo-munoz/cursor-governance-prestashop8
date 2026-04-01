@@ -1,0 +1,27 @@
+# GOVERNANCE VERSION
+# Este archivo define la versión exacta de governance activa en el proyecto
+# NO EDITAR MANUALMENTE - Generado por iagt-governance apply
+
+# Versiones de governance (tag o ref)
+CORE_VERSION=v2.2.0
+PRESTASHOP_VERSION=v2.4.0
+
+# SHA del commit remoto (para verificación de integridad)
+# Estos valores se generan automáticamente al ejecutar setup/update
+CORE_COMMIT=pending
+PRESTASHOP_COMMIT=pending
+
+# Hash de la rule principal (para verificar integridad del contenido)
+# Regenerar con: sha256sum governance/prestashop/rules/prestashop-main-rule.md | cut -d' ' -f1
+RULE_HASH=pending
+
+# Fecha de última sincronización
+LAST_SYNC=2026-03-25
+
+# Tag o commit usado (para reproducibilidad)
+CORE_REF=v2.2.0
+PRESTASHOP_REF=v2.4.0
+
+# Repositorios fuente
+CORE_REPO=git@github.com:inigo-munoz/cursor-governance-core.git
+PRESTASHOP_REPO=git@github.com:inigo-munoz/cursor-governance-prestashop8.git

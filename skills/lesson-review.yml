@@ -1,0 +1,17 @@
+id: skill.lesson-review
+domain: governance
+purpose: >
+  Analizar lessons y sugerir mejoras a artefactos de gobernanza (checklists,
+  skills o documentación) sin modificar automáticamente ningún artefacto.
+
+inputs_contract:
+  - repository
+  - changed_files
+
+uses_checklists:
+  - checklists/governance-lesson-analysis.yml
+
+expected_output_contract:
+  - governance violations
+  - recommendations
+

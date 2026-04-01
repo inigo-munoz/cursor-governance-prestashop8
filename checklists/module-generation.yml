@@ -1,0 +1,144 @@
+id: checklist.module_generation
+name: Module Generation – PrestaShop
+domain: architecture
+purpose: Validar la generación/estructura inicial de un módulo según el stack.
+description: >
+  Checklist para la creación de nuevos módulos PrestaShop alineados con la
+  arquitectura y estándares del stack (naming, estructura, Service Layer,
+  multishop y seguridad básica).
+
+references_contract:
+  - rules/prestashop-main-rule.md
+  - architecture/prestashop-legacy-architecture.md
+  - standards/prestashop-development-standards.md
+  - conventions/coding-conventions.md
+  - multishop/multishop-data-model.md
+  - security/prestashop-security.md
+
+steps_contract:
+  - validar naming y tipo de módulo según convenciones
+  - validar estructura de directorios del módulo según estándares
+  - confirmar presencia de Service Layer para la lógica de negocio
+  - comprobar que el diseño contempla explícitamente multishop
+  - verificar consideraciones de seguridad mínimas desde el diseño
+
+expected_findings:
+  - naming/prefijos no conformes
+  - estructura del módulo no estándar
+  - ausencia de Service Layer o lógica en hooks/controllers
+  - diseño no multishop-ready
+  - riesgos básicos de seguridad por falta de validación de inputs
+
+references:
+  main_rule: rules/prestashop-main-rule.md
+  architecture: architecture/prestashop-legacy-architecture.md
+  standards: standards/prestashop-development-standards.md
+  conventions: conventions/coding-conventions.md
+  multishop: multishop/multishop-data-model.md
+  security: security/prestashop-security.md
+
+steps:
+  - id: module_naming
+    title: Naming y tipo de módulo
+    mandatory: true
+    description: >
+      Verificar que el módulo cumple el naming y tipo definidos por el stack
+      (prefijo, espacio funcional, compatibilidad PS8.x).
+    checks:
+      - type: reference
+        document: conventions/coding-conventions.md
+        section: "Naming de módulos y clases"
+
+  - id: directory_structure
+    title: Estructura de directorios del módulo
+    mandatory: true
+    description: >
+      Validar que la estructura de directorios del módulo sigue la organización
+      estándar del stack (clases de dominio, Service Layer, repositorios,
+      validadores, recursos, etc.).
+    checks:
+      - type: reference
+        document: standards/prestashop-development-standards.md
+        section: "Estructura de módulos"
+
+  - id: service_layer_presence
+    title: Service Layer obligatorio
+    mandatory: true
+    description: >
+      Confirmar que la lógica de negocio principal del módulo reside en una
+      capa de Service Layer y no directamente en hooks o controllers.
+    checks:
+      - type: reference
+        document: architecture/prestashop-legacy-architecture.md
+        section: "Service Layer obligatorio"
+      - type: reference
+        document: rules/prestashop-main-rule.md
+        section: "Lógica de negocio en servicios"
+
+  - id: multishop_ready
+    title: Preparación multishop
+    mandatory: true
+    description: >
+      Comprobar que el módulo está preparado para multitienda según el modelo
+      de datos y las reglas del stack.
+    checks:
+      - type: reference
+        document: multishop/multishop-data-model.md
+        section: "Modelo multishop"
+
+  - id: basic_security
+    title: Seguridad mínima del módulo
+    mandatory: true
+    description: >
+      Verificar que desde el diseño inicial se contemplan las reglas de
+      seguridad del stack (validación de entradas, protección de datos, uso de
+      Service Layer para integraciones, etc.).
+    checks:
+      - type: reference
+        document: security/prestashop-security.md
+        section: "Requisitos generales de seguridad"
+
+id: checklist.module_generation
+name: Module Generation – PrestaShop
+domain: architecture
+description: >
+  Checklist para la creación de nuevos módulos PrestaShop en tu equipo,
+  alineados con la arquitectura legacy controlada, el uso obligatorio
+  de Service Layer y el modelo multishop del stack de gobernanza.
+references:
+  main_rule: rules/prestashop-main-rule.md
+  architecture: architecture/prestashop-legacy-architecture.md
+  standards: standards/prestashop-development-standards.md
+  conventions: conventions/coding-conventions.md
+  multishop: multishop/multishop-data-model.md
+  taxonomy: taxonomy.md
+validation_steps:
+  - id: module_naming
+    description: >
+      Verificar que el nombre del módulo y sus clases sigue las convenciones
+      de naming definidas en `conventions/coding-conventions.md`.
+    references:
+      - conventions/coding-conventions.md
+  - id: architecture_alignment
+    description: >
+      Comprobar que la estructura del módulo respeta el modelo arquitectónico
+      descrito en `architecture/prestashop-legacy-architecture.md` y en
+      `standards/prestashop-development-standards.md`.
+    references:
+      - architecture/prestashop-legacy-architecture.md
+      - standards/prestashop-development-standards.md
+  - id: service_layer_presence
+    description: >
+      Asegurar que el módulo define un Service Layer claro para la lógica
+      de negocio, tal y como exige la rule principal y los estándares
+      de desarrollo.
+    references:
+      - rules/prestashop-main-rule.md
+      - standards/prestashop-development-standards.md
+  - id: multishop_ready
+    description: >
+      Revisar que el diseño del módulo contempla explícitamente el modelo
+      multishop, siguiendo `multishop/multishop-data-model.md`.
+    references:
+      - multishop/multishop-data-model.md
+

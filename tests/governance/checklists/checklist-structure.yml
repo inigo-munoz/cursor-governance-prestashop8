@@ -1,0 +1,18 @@
+# Governance validation: checklist structure
+# Ensures each checklist has required fields and non-empty steps.
+#
+# Result: pass | fail
+# Fail when: id, domain, or steps missing; or steps is empty.
+
+validation: checklist-structure
+description: Each checklist must include id, domain, and non-empty steps.
+
+rules:
+  - name: has_id
+    description: Checklist must include an id field.
+  - name: has_domain
+    description: Checklist must include a domain field.
+  - name: has_steps
+    description: Checklist must include a steps field.
+  - name: steps_non_empty
+    description: Steps must be non-empty (at least one step or steps_contract entry).
