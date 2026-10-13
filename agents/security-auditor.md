@@ -95,7 +95,7 @@ public function __construct() {
 ```
 
 **Rule 13 — Locking (operaciones críticas)**
-Si el código toca stock, checkout, o reservas SAP sin `IagtLockService::withLock()` → 🔴
+Si el código toca stock, checkout, o reservas SAP sin `AcmeLockService::withLock()` → 🔴
 
 ### Paso 3 — Formato del reporte
 

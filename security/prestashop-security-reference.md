@@ -100,7 +100,7 @@ $error    = curl_error($ch);
 curl_close($ch);
 
 if ($error || $httpCode !== 200) {
-    IagtRateLimitedLogger::log('api_error', "HTTP $httpCode: $error", 5);
+    AcmeRateLimitedLogger::log('api_error', "HTTP $httpCode: $error", 5);
     return null;
 }
 
@@ -137,8 +137,8 @@ public function handleUpload($file)
 ## Rule 12: Rate-Limited Logging
 
 ```php
-IagtRateLimitedLogger::log('sap_error', $message, 5);          // máx 5/min
-IagtRateLimitedLogger::logUnique('sap_error', $message, 3, 300); // deduplicado 5 min
+AcmeRateLimitedLogger::log('sap_error', $message, 5);          // máx 5/min
+AcmeRateLimitedLogger::logUnique('sap_error', $message, 3, 300); // deduplicado 5 min
 ```
 
 | Tipo de log | Rate limit |
@@ -153,12 +153,12 @@ IagtRateLimitedLogger::logUnique('sap_error', $message, 3, 300); // deduplicado 
 ```php
 $lockKey = 'sap:reserve:cart:' . (int)$cartId;
 
-$result = IagtLockService::withLock($lockKey, function() use ($products) {
+$result = AcmeLockService::withLock($lockKey, function() use ($products) {
     return $operationResult;
 }, 30);
 
 if ($result === null) {
-    IagtRateLimitedLogger::log('lock_fail', 'Could not acquire: ' . $lockKey, 2);
+    AcmeRateLimitedLogger::log('lock_fail', 'Could not acquire: ' . $lockKey, 2);
     throw new PrestaShopException('Operation busy, try again');
 }
 ```

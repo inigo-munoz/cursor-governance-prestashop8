@@ -42,7 +42,7 @@ La lógica de negocio **NUNCA** debe vivir en controllers, hooks, templates o cr
 
 ```php
 // ❌ INCORRECTO - Lógica en controller
-class IagtOfferModuleFrontController extends ModuleFrontController
+class AcmeOfferModuleFrontController extends ModuleFrontController
 {
     public function postProcess()
     {
@@ -55,7 +55,7 @@ class IagtOfferModuleFrontController extends ModuleFrontController
             return;
         }
         
-        $offer = new IagtOffer();
+        $offer = new AcmeOffer();
         $offer->amount = $amount;
         $offer->id_product = $product->id;
         $offer->id_customer = $this->context->customer->id;
@@ -68,11 +68,11 @@ class IagtOfferModuleFrontController extends ModuleFrontController
 }
 
 // ✅ CORRECTO - Controller delega en Service
-class IagtOfferModuleFrontController extends ModuleFrontController
+class AcmeOfferModuleFrontController extends ModuleFrontController
 {
     public function postProcess()
     {
-        $result = IagtOfferService::createOffer(
+        $result = AcmeOfferService::createOffer(
             (int) Tools::getValue('id_product'),
             (float) Tools::getValue('amount'),
             (int) $this->context->customer->id,
@@ -124,7 +124,7 @@ public function hookActionValidateOrder($params)
 // ✅ CORRECTO - Hook delega inmediatamente
 public function hookActionValidateOrder($params)
 {
-    IagtLoyaltyService::processOrderPoints($params['order']);
+    AcmeLoyaltyService::processOrderPoints($params['order']);
 }
 ```
 
@@ -135,14 +135,14 @@ public function hookActionValidateOrder($params)
 | Check | Criterio | Severidad |
 |-------|----------|-----------|
 | Ubicación | `classes/` o `src/Service/` del módulo | 🟡 |
-| Naming | `IagtNombreService` | 🟡 |
+| Naming | `AcmeNombreService` | 🟡 |
 | Responsabilidad | Una responsabilidad clara por service | 🟡 |
 | Dependencias | Inyectadas o accedidas vía métodos estáticos | 🟢 |
 | Testabilidad | Métodos con inputs/outputs claros | 🟢 |
 
 ```php
 // ✅ Service correcto
-class IagtOfferService
+class AcmeOfferService
 {
     /**
      * Crea una nueva oferta
@@ -167,7 +167,7 @@ class IagtOfferService
         }
         
         // Persistencia
-        $offer = new IagtOffer();
+        $offer = new AcmeOffer();
         $offer->id_product = (int)$idProduct;
         $offer->amount = (float)$amount;
         $offer->id_customer = (int)$idCustomer;
@@ -178,7 +178,7 @@ class IagtOfferService
         }
         
         // Side effects
-        IagtNotificationService::notifyNewOffer($offer);
+        AcmeNotificationService::notifyNewOffer($offer);
         
         return ['success' => true, 'error' => null, 'id' => $offer->id];
     }
@@ -231,7 +231,7 @@ foreach ($products as $product) {
 // ✅ CORRECTO - cron delega
 // cron/sync_stock.php
 require_once dirname(__FILE__) . '/../config/config.inc.php';
-IagtStockSyncService::syncAll();
+AcmeStockSyncService::syncAll();
 ```
 
 ---

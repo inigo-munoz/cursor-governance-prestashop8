@@ -22,11 +22,11 @@ cli:
 
   modules:
     file: architecture/prestashop-legacy-architecture.md
-    globs: "modules/vendor_*/**,modules/Iagt_*/**"
+    globs: "modules/vendor_*/**,modules/Acme_*/**"
     description: "Cursor Governance PrestaShop 8 architecture, Service Layer, naming conventions"
     additional:
       - conventions/coding-conventions.md
-      - context/prestashop-iagt-context.md
+      - context/prestashop-context.md
       - standards/prestashop-development-standards.md
 
   hooks:

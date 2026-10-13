@@ -286,7 +286,7 @@ CREATE TABLE `ps_vendor_landing_lang` (
 | `ps_customer` | Solo campos específicos, nunca password |
 | `ps_product` | Solo via ObjectModel, nunca SQL directo |
 | `ps_product_lang` | Solo via ObjectModel |
-| `ps_cart_rule` | Solo cupones con prefijo propio (ej: `IAGT-*`) |
+| `ps_cart_rule` | Solo cupones con prefijo propio (ej: `ACME-*`) |
 
 ---
 
@@ -295,7 +295,7 @@ CREATE TABLE `ps_vendor_landing_lang` (
 ### 6.1 Definición correcta
 
 ```php
-class IagtOffer extends ObjectModel
+class AcmeOffer extends ObjectModel
 {
     public $id_offer;
     public $id_customer;
@@ -334,7 +334,7 @@ class IagtOffer extends ObjectModel
 
 ```php
 // ✅ CORRECTO - Filtrar por tienda
-$offers = IagtOffer::getByCustomer($idCustomer, $idShop);
+$offers = AcmeOffer::getByCustomer($idCustomer, $idShop);
 
 // Implementación
 public static function getByCustomer($idCustomer, $idShop = null)
@@ -360,7 +360,7 @@ public static function getByCustomer($idCustomer, $idShop = null)
 ### 7.1 En Controllers Front
 
 ```php
-class IagtModuleDisplayModuleFrontController extends ModuleFrontController
+class AcmeModuleDisplayModuleFrontController extends ModuleFrontController
 {
     public function initContent()
     {
@@ -370,7 +370,7 @@ class IagtModuleDisplayModuleFrontController extends ModuleFrontController
         $idShop = (int)$this->context->shop->id;
         
         // Usar en queries
-        $data = IagtService::getData($idShop);
+        $data = AcmeService::getData($idShop);
         
         $this->context->smarty->assign([
             'data' => $data,
@@ -388,7 +388,7 @@ public function hookDisplayHeader($params)
     $idShop = (int)$this->context->shop->id;
     
     // Delegar en Service con id_shop
-    $config = IagtConfigService::getForShop($idShop);
+    $config = AcmeConfigService::getForShop($idShop);
     
     // ...
 }
@@ -401,13 +401,13 @@ public function hookDisplayHeader($params)
 ### 8.1 En ModuleAdminController
 
 ```php
-class AdminIagtOffersController extends ModuleAdminController
+class AdminAcmeOffersController extends ModuleAdminController
 {
     public function __construct()
     {
         $this->bootstrap = true;
         $this->table = 'vendor_offer';
-        $this->className = 'IagtOffer';
+        $this->className = 'AcmeOffer';
         $this->identifier = 'id_offer';
         
         // Filtrar automáticamente por tienda según contexto

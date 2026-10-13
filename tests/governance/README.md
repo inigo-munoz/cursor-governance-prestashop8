@@ -29,7 +29,7 @@ Exit code 0 = pass, 1 = fail.
 These tests are discoverable and runnable by a governance CLI. When you use:
 
 ```bash
-iagt-governance validate
+cursor-governance validate
 ```
 
 it should invoke `scripts/validate-governance.sh` (or equivalent) so that the same governance validations run. The stack does not require a specific CLI binary; the script is the canonical runner.

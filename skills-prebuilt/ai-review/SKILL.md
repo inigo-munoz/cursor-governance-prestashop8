@@ -21,7 +21,7 @@ Aplica en este orden estricto. Un bloqueante 🔴 en cualquier área detiene la 
 
 ### 1. Seguridad — SIEMPRE primero
 
-Revisa contra las 13 reglas de seguridad IAGT:
+Revisa contra las 13 reglas de seguridad de la governance:
 
 | Check | Criterio | Severidad |
 |-------|----------|-----------|
@@ -35,7 +35,7 @@ Revisa contra las 13 reglas de seguridad IAGT:
 | APIs externas | Timeout, SSL verify, credenciales en config | 🔴 |
 | Error handling | Sin `echo $e->getMessage()` | 🔴 |
 | Permisos admin | `$this->access('view')` en constructor | 🔴 |
-| Locking crítico | `IagtLockService` en stock/checkout/SAP | 🔴 |
+| Locking crítico | `AcmeLockService` en stock/checkout/SAP | 🔴 |
 
 ---
 
@@ -44,7 +44,7 @@ Revisa contra las 13 reglas de seguridad IAGT:
 | Check | Criterio | Severidad |
 |-------|----------|-----------|
 | Hooks solo orquestan | Sin lógica ni SQL en hooks | 🔴 |
-| Prefijo Iagt | Todas las clases custom con prefijo | 🔴 |
+| Prefijo Acme | Todas las clases custom con prefijo | 🔴 |
 | Sin overrides core | Hooks en lugar de overrides | 🔴 |
 | SQL solo en Service | Sin queries directas en hooks/controllers | 🔴 |
 | Un Service por dominio | Responsabilidad única | 🟡 |
@@ -67,7 +67,7 @@ Revisa contra las 13 reglas de seguridad IAGT:
 | Check | Criterio | Severidad |
 |-------|----------|-----------|
 | PSR-12 básico | Indentación, llaves, espaciado | 🟡 |
-| Naming archivos | `IagtNombre.php` en `classes/` | 🟡 |
+| Naming archivos | `AcmeNombre.php` en `classes/` | 🟡 |
 | Sin lógica en Smarty | Templates solo display | 🟡 |
 | Constantes en módulo | No dispersas en clases | 💡 |
 
@@ -76,7 +76,7 @@ Revisa contra las 13 reglas de seguridad IAGT:
 ## Formato de salida
 
 ```
-## Revisión técnica IAGT
+## Revisión técnica
 
 ### 🔴 Bloqueantes (resolver antes del PR)
 [archivo:línea] [Rule/Check] — descripción + corrección concreta

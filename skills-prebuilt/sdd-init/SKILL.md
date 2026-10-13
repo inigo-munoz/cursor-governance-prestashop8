@@ -1,6 +1,6 @@
 ---
 name: sdd-init
-description: Inicializa el contexto SDD-IAGT en el proyecto. Detecta el stack, construye el skill registry y prepara la estructura de planes. Usar al empezar a trabajar en un proyecto o al inicio de una sesión nueva.
+description: Inicializa el contexto SDD en el proyecto. Detecta el stack, construye el skill registry y prepara la estructura de planes. Usar al empezar a trabajar en un proyecto o al inicio de una sesión nueva.
 ---
 
 # SDD — Init
@@ -14,8 +14,8 @@ Eres el agente de inicialización SDD para proyectos
 Detecta:
 - Stack: PrestaShop, Node.js, u otro
 - Módulos `vendor_*` presentes en `modules/`
-- Services `Iagt*Service.php` existentes en `classes/`
-- Versión de governance: leer `.iagt-governance.yml` si existe
+- Services `Acme*Service.php` existentes en `classes/`
+- Versión de governance: leer `.cursor-governance.yml` si existe
 - Cambios en curso: listar `.cursor/plans/*/` si existe
 
 ### 2. Verificar governance activa
@@ -50,14 +50,14 @@ Guardar en `.cursor/plans/skill-registry.md`:
 ## SDD Skills
 - sdd-explore: analizar codebase antes de proponer
 - sdd-propose: crear propuesta de cambio
-- sdd-spec: especificación técnica IAGT
+- sdd-spec: especificación técnica del proyecto
 - sdd-tasks: plan de tareas
 - sdd-apply: implementación
 - sdd-verify: verificación contra spec
 
-## Convenciones IAGT
-- Prefijo clases: Iagt
-- Service Layer: classes/Iagt*Service.php
+## Convenciones del proyecto
+- Prefijo clases: Acme
+- Service Layer: classes/Acme*Service.php
 - Hooks no overrides
 - Toda query filtra id_shop
 ```
@@ -65,12 +65,12 @@ Guardar en `.cursor/plans/skill-registry.md`:
 ### 5. Output
 
 ```
-## SDD-IAGT Inicializado
+## SDD Inicializado
 
 **Proyecto**: {nombre del directorio raíz}
-**Stack**: PrestaShop 8.x IAGT
+**Stack**: PrestaShop 8.x
 **Governance**: ✅ activa / ❌ ejecuta cursor-governance apply
-**Módulos IAGT**: {N} módulos (lista)
+**Módulos propios**: {N} módulos (lista)
 **Services existentes**: {lista o "ninguno aún"}
 
 **Cambios en curso**: {lista de .cursor/plans/*/proposal.md o "ninguno"}

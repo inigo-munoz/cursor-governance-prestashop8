@@ -67,11 +67,11 @@ CREATE TABLE IF NOT EXISTS `{prefix}vendor_nombre` (
 
 ```php
 // ✅ Configuración con id_shop
-Configuration::updateValue('IAGT_CONFIG', $value, false, null, (int)$idShop);
-Configuration::get('IAGT_CONFIG', null, null, (int)$idShop);
+Configuration::updateValue('ACME_CONFIG', $value, false, null, (int)$idShop);
+Configuration::get('ACME_CONFIG', null, null, (int)$idShop);
 
 // ❌ Configuración global cuando debería ser por tienda
-Configuration::updateValue('IAGT_CONFIG', $value);
+Configuration::updateValue('ACME_CONFIG', $value);
 ```
 
 ### 5. Aislamiento en migraciones 🔴

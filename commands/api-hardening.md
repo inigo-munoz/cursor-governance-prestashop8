@@ -43,7 +43,7 @@ curl_setopt_array($ch, [
 ]);
 
 // Credenciales desde Configuration
-$apiKey = Configuration::get('IAGT_API_KEY');
+$apiKey = Configuration::get('ACME_API_KEY');
 ```
 
 ---
@@ -72,19 +72,19 @@ try {
     curl_close($ch);
     
     if ($error) {
-        IagtRateLimitedLogger::log('api_error', 'Connection failed: ' . $error, 3);
+        AcmeRateLimitedLogger::log('api_error', 'Connection failed: ' . $error, 3);
         return null;
     }
     
     if ($httpCode !== 200) {
-        IagtRateLimitedLogger::log('api_error', 'HTTP ' . $httpCode, 2);
+        AcmeRateLimitedLogger::log('api_error', 'HTTP ' . $httpCode, 2);
         return null;
     }
     
     // Procesar respuesta...
     
 } catch (Exception $e) {
-    IagtRateLimitedLogger::log('api_error', $e->getMessage(), 3);
+    AcmeRateLimitedLogger::log('api_error', $e->getMessage(), 3);
     return null;
 }
 ```
@@ -109,7 +109,7 @@ $reservationId = $data['reservation_id'];
 $data = json_decode($response, true);
 
 if (json_last_error() !== JSON_ERROR_NONE) {
-    IagtRateLimitedLogger::log('api_error', 'Invalid JSON response', 3);
+    AcmeRateLimitedLogger::log('api_error', 'Invalid JSON response', 3);
     return null;
 }
 
@@ -117,7 +117,7 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 $required = ['reservation_id', 'status', 'items'];
 foreach ($required as $field) {
     if (!isset($data[$field])) {
-        IagtRateLimitedLogger::log('api_error', 'Missing field: ' . $field, 3);
+        AcmeRateLimitedLogger::log('api_error', 'Missing field: ' . $field, 3);
         return null;
     }
 }
@@ -150,9 +150,9 @@ foreach ($items as $item) {
 }
 
 // ✅ CORRECTO
-IagtRateLimitedLogger::log('api_item_error', 'Processing failed', 3);
+AcmeRateLimitedLogger::log('api_item_error', 'Processing failed', 3);
 // O para deduplicar mensajes idénticos:
-IagtRateLimitedLogger::logUnique('api_error', $errorMessage, 3, 300);
+AcmeRateLimitedLogger::logUnique('api_error', $errorMessage, 3, 300);
 ```
 
 ---

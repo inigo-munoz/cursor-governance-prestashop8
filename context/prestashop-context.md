@@ -28,12 +28,12 @@ modules/vendor_modulename/
 ├── index.php                        # Obligatorio en CADA directorio
 ├── classes/
 │   ├── index.php
-│   └── IagtEntityName.php
+│   └── AcmeEntityName.php
 ├── controllers/
 │   ├── index.php
 │   ├── admin/
 │   │   ├── index.php
-│   │   └── AdminIagtEntityController.php
+│   │   └── AdminAcmeEntityController.php
 │   └── front/
 │       ├── index.php
 │       └── action.php
@@ -64,7 +64,7 @@ Contenido mínimo de cada `index.php`:
 No hay autoload. Carga manual obligatoria:
 
 ```php
-require_once _PS_MODULE_DIR_ . 'vendor_modulename/classes/IagtEntity.php';
+require_once _PS_MODULE_DIR_ . 'vendor_modulename/classes/AcmeEntity.php';
 ```
 
 Cargar en la parte superior del archivo, después del check `_PS_VERSION_`.
@@ -127,7 +127,7 @@ if (!Module::isEnabled($this->name)) { return ''; }
 if (!($this->context->controller instanceof ProductController)) { return ''; }
 
 // 3. Delegar inmediatamente en Service — no poner lógica en el hook
-IagtService::processEvent($params);
+AcmeService::processEvent($params);
 ```
 
 - Evitar queries pesadas — cachear o lazy load
@@ -140,9 +140,9 @@ IagtService::processEvent($params);
 Preferir `vendor_mails` si está disponible:
 
 ```php
-if (Module::isInstalled('vendor_mails') && class_exists('IagtMails')) {
-    require_once _PS_MODULE_DIR_ . 'vendor_mails/classes/IagtMails.php';
-    IagtMails::send(...);
+if (Module::isInstalled('vendor_mails') && class_exists('AcmeMails')) {
+    require_once _PS_MODULE_DIR_ . 'vendor_mails/classes/AcmeMails.php';
+    AcmeMails::send(...);
 } else {
     Mail::send(...);
 }

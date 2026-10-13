@@ -45,7 +45,7 @@ Busca e inspecciona:
 - Leer `install()` y hooks registrados de los relevantes
 
 **Services existentes:**
-- `classes/Iagt*Service.php` — qué servicios existen
+- `classes/Acme*Service.php` — qué servicios existen
 - Qué métodos públicos tienen los relacionados
 
 **Tablas de DB:**
@@ -73,7 +73,7 @@ Busca e inspecciona:
 - `vendor_nombre` — [qué hace, relevante porque...]
 
 **Services disponibles:**
-- `IagtNombreService` — métodos: [lista]
+- `AcmeNombreService` — métodos: [lista]
 - *Necesario crear*: [si no existe el service relevante]
 
 **Estado multishop:**
@@ -92,7 +92,7 @@ Pros: / Contras:
 
 ### Recomendación
 
-[cuál opción y por qué, basado en las convenciones IAGT]
+[cuál opción y por qué, basado en las convenciones del proyecto]
 
 ---
 *No se ha creado ningún archivo. Para empezar el cambio: `/sdd:new <nombre>`*

@@ -49,14 +49,14 @@ Si tienes que elegir entre "funciona" y "es seguro", elige seguro.
 
 ### 3. Prefijo obligatorio
 
-Todas las clases custom deben usar prefijo `Iagt`:
+Todas las clases custom deben usar prefijo `Acme`:
 
 ```php
 // ❌ Incorrecto
 class OrderSyncService { }
 
 // ✅ Correcto
-class IagtOrderSyncService { }
+class AcmeOrderSyncService { }
 ```
 
 ---
@@ -102,7 +102,7 @@ Si `/review` indica 🔴 → **NO puede ir a producción**.
 [ ] ¿Usé pSQL() para strings en SQL?
 [ ] ¿Mi lógica está en un Service, no en hook/controller?
 [ ] ¿Mis queries filtran id_shop?
-[ ] ¿Mis clases tienen prefijo Iagt?
+[ ] ¿Mis clases tienen prefijo Acme?
 [ ] ¿Ejecuté /review?
 ```
 

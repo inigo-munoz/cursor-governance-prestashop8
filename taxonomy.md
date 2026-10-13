@@ -38,7 +38,7 @@ Todo lo que está en `security/prestashop-security.md` es obligatorio sin excepc
 | Regla | Nivel | Nota |
 |-------|-------|------|
 | Service Layer para lógica de negocio | 🔴 | Nunca lógica en hooks/controllers |
-| Prefijo `Iagt` en clases custom | 🔴 | Sin excepciones |
+| Prefijo `Acme` en clases custom | 🔴 | Sin excepciones |
 | No overrides si existe hook | 🔴 | Excepción requiere documentación |
 | Filtrar `id_shop` en queries | 🔴 | Excepto CONTEXT_ALL justificado |
 

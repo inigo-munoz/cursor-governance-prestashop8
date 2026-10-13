@@ -107,7 +107,7 @@ No se permite arquitectura híbrida improvisada.
 
 El desarrollo asistido por IA debe:
 
-Respetar el prefijo Iagt en todas las clases custom.
+Respetar el prefijo Acme en todas las clases custom.
 
 Cumplir reglas de seguridad sin excepción.
 
@@ -269,7 +269,7 @@ Capa 2 — Generación de Código
 
 El código generado o refactorizado:
 
-Debe respetar el prefijo Iagt
+Debe respetar el prefijo Acme
 
 Debe cumplir multishop explícito
 

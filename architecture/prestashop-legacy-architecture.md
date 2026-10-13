@@ -118,7 +118,7 @@ Integraciones externas
 
 Reglas:
 
-Prefijo Iagt
+Prefijo Acme
 
 Métodos estáticos permitidos
 

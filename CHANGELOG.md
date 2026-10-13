@@ -97,7 +97,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/).
 
 ### Corregido
 
-- **Defaults de repos** — Cambiados de `iagt/` a `inigo-munoz/` (workspace real)
+- **Defaults de repos** — Cambiados al workspace público `inigo-munoz/`
 
 ### Añadido
 
@@ -273,11 +273,11 @@ Este release alinea el stack con **Core v2.1.0** que introduce:
 - `rules/prestashop-main-rule.md` — Rule principal
 - `security/prestashop-security.md` — Política de seguridad v2.0
 - `security/SECURITY_POLICY.md` — Política operativa
-- `patterns/prestashop-iagt-patterns.md` — Patrones del stack
+- `patterns/prestashop-acme-patterns.md` — Patrones del stack
 - `patterns/prestashop-enterprise-hardened-v2.0.md` — Patrones enterprise
 - `multishop/multishop-data-model.md` — Modelo multishop
 - `architecture/prestashop-legacy-architecture.md` — Arquitectura
-- `context/prestashop-iagt-context.md` — Contexto técnico
+- `context/prestashop-context.md` — Contexto técnico
 - `conventions/coding-conventions.md` — Convenciones
 - `standards/prestashop-development-standards.md` — Estándares
 - `workflow/governance-workflow.md` — Workflow de gobernanza

@@ -2,7 +2,7 @@
 # validate-governance.sh
 # Runs governance validation tests (skills, checklists, agents).
 # Exit 0 = pass, 1 = fail.
-# Discoverable by: iagt-governance validate (when wired to this script).
+# Discoverable by: cursor-governance validate (when wired to this script).
 
 set -euo pipefail
 

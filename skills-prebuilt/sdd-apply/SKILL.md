@@ -38,7 +38,7 @@ Reglas de implementación (no negociables):
 **Service Layer:**
 ```php
 // ✅ Toda la lógica de negocio aquí
-class IagtNombreService {
+class AcmeNombreService {
     public function getNombre(int $idShop, int $idLang): array|false {
         return Db::getInstance()->getRow('
             SELECT * FROM `' . _DB_PREFIX_ . 'vendor_nombre`
@@ -54,7 +54,7 @@ class IagtNombreService {
 ```php
 // ✅ Hook llama al service — sin lógica propia
 public function hookNombreHook($params) {
-    $service = new IagtNombreService();
+    $service = new AcmeNombreService();
     return $service->getNombre(
         (int)$this->context->shop->id,
         (int)$this->context->language->id
@@ -64,7 +64,7 @@ public function hookNombreHook($params) {
 
 **AJAX (seguro):**
 ```php
-// ✅ Validación Rule 4 IAGT
+// ✅ Validación Rule 4 (governance)
 public function initContent() {
     if (!$this->isTokenValid()) { // token CSRF
         $this->ajaxRender(json_encode(['success' => false]));
@@ -89,7 +89,7 @@ Marcar las tareas completadas:
 ## Bloque {N} implementado
 
 **Archivos creados:**
-- `classes/IagtNombreService.php` ← nuevo (N líneas)
+- `classes/AcmeNombreService.php` ← nuevo (N líneas)
 
 **Archivos modificados:**
 - `modules/vendor_nombre/vendor_nombre.php` ← hook registrado

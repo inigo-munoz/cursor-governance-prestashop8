@@ -33,34 +33,34 @@ Solo se analiza y mantiene código en estos directorios:
 
 ## 3. Nomenclatura de Clases
 
-> 🔴 **CRÍTICO:** TODAS las clases custom deben usar prefijo `Iagt` para evitar colisiones.
+> 🔴 **CRÍTICO:** TODAS las clases custom deben usar prefijo `Acme` para evitar colisiones.
 
 ### Regla de naming
 
 | Tipo | Formato | Ejemplo |
 |------|---------|---------|
-| **Clase principal módulo** | `Iagt_nombremodulo` (snake_case) | `Iagt_counteroffer` |
-| **Clases auxiliares** | `IagtNombreClase` (CamelCase) | `IagtCounterofferLogger` |
-| **Clases helper** | `IagtNombreHelper` | `IagtMails`, `IagtValidator` |
-| **ObjectModel** | `IagtNombreEntidad` | `IagtCustomerNote` |
-| **Service Layer** | `IagtNombreService` | `IagtSapStockService` |
-| **Controllers Admin** | `AdminIagtNombreController` | `AdminIagtLandingsController` |
-| **Controllers Front** | `IagtNombreModuleFrontController` | `IagtCounterofferApiModuleFrontController` |
+| **Clase principal módulo** | `Acme_nombremodulo` (snake_case) | `Acme_counteroffer` |
+| **Clases auxiliares** | `AcmeNombreClase` (CamelCase) | `AcmeCounterofferLogger` |
+| **Clases helper** | `AcmeNombreHelper` | `AcmeMails`, `AcmeValidator` |
+| **ObjectModel** | `AcmeNombreEntidad` | `AcmeCustomerNote` |
+| **Service Layer** | `AcmeNombreService` | `AcmeSapStockService` |
+| **Controllers Admin** | `AdminAcmeNombreController` | `AdminAcmeLandingsController` |
+| **Controllers Front** | `AcmeNombreModuleFrontController` | `AcmeCounterofferApiModuleFrontController` |
 
 ### ¿Por qué snake_case en la clase principal?
 
-PrestaShop requiere que el nombre de la clase principal del módulo coincida exactamente con el nombre del directorio. Como los directorios usan `vendor_nombremodulo`, la clase debe ser `Iagt_nombremodulo`.
+PrestaShop requiere que el nombre de la clase principal del módulo coincida exactamente con el nombre del directorio. Como los directorios usan `vendor_nombremodulo`, la clase debe ser `Acme_nombremodulo`.
 
-**Todas las demás clases** usan CamelCase sin underscore: `IagtNombreClase`.
+**Todas las demás clases** usan CamelCase sin underscore: `AcmeNombreClase`.
 
 ```php
 // Clase principal del módulo (snake_case obligatorio por PS)
-class Iagt_counteroffer extends Module { }
+class Acme_counteroffer extends Module { }
 
 // Todas las demás clases (CamelCase)
-class IagtCounterofferLogger { }
-class IagtCounterofferService { }
-class IagtCustomerNote extends ObjectModel { }
+class AcmeCounterofferLogger { }
+class AcmeCounterofferService { }
+class AcmeCustomerNote extends ObjectModel { }
 ```
 
 ---
@@ -120,13 +120,13 @@ Formato: `UPPER_SNAKE_CASE` con prefijo del módulo.
 
 ```php
 // Constantes de estado
-const IAGT_MODULO_STATUS_PENDING = 1;
-const IAGT_MODULO_STATUS_ACCEPTED = 2;
-const IAGT_MODULO_STATUS_REJECTED = 3;
+const ACME_MODULO_STATUS_PENDING = 1;
+const ACME_MODULO_STATUS_ACCEPTED = 2;
+const ACME_MODULO_STATUS_REJECTED = 3;
 
 // Constantes de configuración
-const IAGT_MODULO_CONFIG_KEY = 'IAGT_MOD_CONFIG';
-const IAGT_MODULO_EMAIL_ENABLED = 'IAGT_MOD_EMAIL';
+const ACME_MODULO_CONFIG_KEY = 'ACME_MOD_CONFIG';
+const ACME_MODULO_EMAIL_ENABLED = 'ACME_MOD_EMAIL';
 ```
 
 ---
@@ -177,20 +177,20 @@ Service Layer obligatorio — lógica de negocio en Services, NO en controllers.
 
 ```php
 // BackOffice - extends ModuleAdminController
-class AdminIagtLandingsController extends ModuleAdminController
+class AdminAcmeLandingsController extends ModuleAdminController
 {
     public function __construct()
     {
         $this->bootstrap = true;
         $this->table = 'vendor_landing';
-        $this->className = 'IagtLanding';
+        $this->className = 'AcmeLanding';
         $this->identifier = 'id_landing';
         parent::__construct();
     }
 }
 
 // Frontend - extends ModuleFrontController
-class Iagt_CounterofferApiModuleFrontController extends ModuleFrontController
+class Acme_CounterofferApiModuleFrontController extends ModuleFrontController
 {
     public function initContent()
     {
@@ -205,8 +205,8 @@ class Iagt_CounterofferApiModuleFrontController extends ModuleFrontController
 > 📘 La lógica de negocio va en clases Service, NO en controllers ni hooks.
 
 ```php
-// classes/IagtCounterofferService.php
-class IagtCounterofferService
+// classes/AcmeCounterofferService.php
+class AcmeCounterofferService
 {
     public static function create($idCustomer, $idProduct, $amount, $idShop = null)
     {
@@ -220,7 +220,7 @@ class IagtCounterofferService
         }
         
         // Lógica de negocio
-        $offer = new IagtCounteroffer();
+        $offer = new AcmeCounteroffer();
         $offer->id_customer = (int)$idCustomer;
         $offer->id_product = (int)$idProduct;
         $offer->amount = (float)$amount;
@@ -254,7 +254,7 @@ public function hookActionValidateOrder($params)
 // ✅ CORRECTO - Hook delega en Service
 public function hookActionValidateOrder($params)
 {
-    IagtOrderService::processNewOrder($params['order']);
+    AcmeOrderService::processNewOrder($params['order']);
 }
 ```
 
@@ -271,13 +271,13 @@ public function hookActionValidateOrder($params)
 
 ```php
 // ✅ Correcto
-class IagtCounterofferService
+class AcmeCounterofferService
 {
     private $logger;
     
     public function __construct()
     {
-        $this->logger = new IagtLogger();
+        $this->logger = new AcmeLogger();
     }
     
     public function process($data)
@@ -316,18 +316,18 @@ PrestaShop 8 usa archivos XLIFF 1.2 (`.xlf`) — NO usar sistema legacy de archi
 
 ```
 # Tema
-translations/es-ES/ShopThemeIagtHome.es-ES.xlf
-translations/en-US/ShopThemeIagtHome.en-US.xlf
+translations/es-ES/ShopThemeAcmeHome.es-ES.xlf
+translations/en-US/ShopThemeAcmeHome.en-US.xlf
 
 # Módulo
-modules/vendor_modulename/translations/es-ES/ModulesIagtModulenameShop.es-ES.xlf
+modules/vendor_modulename/translations/es-ES/ModulesAcmeModulenameShop.es-ES.xlf
 ```
 
 ### Sintaxis en Smarty
 
 ```smarty
-{l s='Texto original' d='ShopThemeIagtHome'}
-{l s='Otro texto' d='Modules.IagtModulename.Shop'}
+{l s='Texto original' d='ShopThemeAcmeHome'}
+{l s='Otro texto' d='Modules.AcmeModulename.Shop'}
 ```
 
 ### Limpieza de caché (OBLIGATORIO)
@@ -350,7 +350,7 @@ rm -rf var/cache/dev/translations
 
 | ❌ Prohibido | ✅ Correcto |
 |-------------|-------------|
-| Clases sin prefijo `Iagt` | `IagtNombreClase` |
+| Clases sin prefijo `Acme` | `AcmeNombreClase` |
 | Lógica compleja en hooks | Hook delega en Service |
 | Lógica en Smarty | Preparar datos en controller |
 | `die()` en producción | `Tools::redirect()` o response JSON |

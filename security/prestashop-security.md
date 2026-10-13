@@ -63,7 +63,7 @@
 
 - ❌ Nunca loguear: contraseñas, tokens, datos de tarjeta, datos personales
 - Errores técnicos → log interno. Usuario → mensaje genérico
-- APIs con volumen: usar `IagtRateLimitedLogger` (max 5 errores/min)
+- APIs con volumen: usar `AcmeRateLimitedLogger` (max 5 errores/min)
 
 ## Rule 9: Permisos
 `CWE-285` · `CWE-863` · `OWASP A01:2021 Broken Access Control`
@@ -85,14 +85,14 @@
 ## Rule 12: Rate-Limited Logging
 `CWE-778` · `OWASP A09:2021 Security Logging and Monitoring Failures`
 
-- `IagtRateLimitedLogger::log('category', $msg, 5)` para errores de API
+- `AcmeRateLimitedLogger::log('category', $msg, 5)` para errores de API
 - Nunca rate-limitar: incidentes de seguridad, integridad de datos, pagos
 
 ## Rule 13: Distributed Locking
 `CWE-362` · `CWE-667` · `OWASP A04:2021 Insecure Design`
 
 - Obligatorio en: stock, checkout, reservas SAP, crons críticos
-- Patrón: `IagtLockService::withLock($key, fn, $ttl)` — si retorna `null` → lanzar excepción, nunca proceder
+- Patrón: `AcmeLockService::withLock($key, fn, $ttl)` — si retorna `null` → lanzar excepción, nunca proceder
 - Lock key: formato `operation:entity_type:entity_id`
 - TTL = tiempo esperado + 50% buffer
 

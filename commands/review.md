@@ -40,7 +40,7 @@ Evalúa el código o diff aplicando la jerarquía: Seguridad > Arquitectura > Co
 | Check | Criterio | Severidad | Acción |
 |-------|----------|-----------|--------|
 | Service Layer | Lógica de negocio en Services, NO en hooks/controllers | 🔴 | → /servicelayer-review |
-| Prefijo | Clases custom con prefijo `Iagt` | 🔴 | |
+| Prefijo | Clases custom con prefijo `Acme` | 🔴 | |
 | Overrides | Prohibidos si existe hook viable | 🔴 | |
 | Hooks | Solo orquestan, delegan en Services | 🟡 | → /servicelayer-review |
 | Controllers | Solo coordinan flujo, sin lógica de negocio | 🟡 | → /servicelayer-review |

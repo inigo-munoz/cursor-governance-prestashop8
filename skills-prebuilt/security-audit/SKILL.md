@@ -71,12 +71,12 @@ Automáticamente cuando detectas:
 - Validar campos requeridos y tipos antes de usar respuestas de API externas
 
 ### Rule 12: Rate-Limited Logging `CWE-778` 🟡
-- `IagtRateLimitedLogger::log('category', $msg, 5)` para errores de API de volumen
+- `AcmeRateLimitedLogger::log('category', $msg, 5)` para errores de API de volumen
 - Nunca rate-limitar: incidentes de seguridad, integridad de datos, pagos
 
 ### Rule 13: Distributed Locking `CWE-362` 🔴
 - Obligatorio en: stock, checkout, reservas SAP, crons críticos
-- Patrón: `IagtLockService::withLock($key, fn, $ttl)` — si retorna `null` → excepción, nunca proceder
+- Patrón: `AcmeLockService::withLock($key, fn, $ttl)` — si retorna `null` → excepción, nunca proceder
 
 ## Formato de salida
 

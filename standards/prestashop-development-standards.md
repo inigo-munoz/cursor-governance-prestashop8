@@ -8,7 +8,7 @@ Estado: Autoritativo
 
 Este documento define:
 
-Cómo se estructura un módulo IAGT
+Cómo se estructura un módulo propio
 
 Cómo se organizan clases internas
 
@@ -30,7 +30,7 @@ ARCHITECTURE.md
 
 Este documento complementa a architecture.
 
-2. Estructura Obligatoria de un Módulo IAGT
+2. Estructura Obligatoria de un Módulo Propio
 
 Estructura mínima recomendada:
 
@@ -38,11 +38,11 @@ modules/vendor_modulename/
 
 ├── vendor_modulename.php
 ├── classes/
-│   ├── IagtModulenameService.php
-│   ├── IagtModulenameRepository.php (si aplica)
-│   ├── IagtModulenameValidator.php (si aplica)
+│   ├── AcmeModulenameService.php
+│   ├── AcmeModulenameRepository.php (si aplica)
+│   ├── AcmeModulenameValidator.php (si aplica)
 │   └── models/
-│       └── IagtModulenameEntity.php
+│       └── AcmeModulenameEntity.php
 ├── controllers/
 │   ├── admin/
 │   └── front/
@@ -79,9 +79,9 @@ Hay múltiples validaciones
 
 Ejemplo correcto:
 
-IagtSapStockService
-IagtCounterofferService
-IagtOrderSyncService
+AcmeSapStockService
+AcmeCounterofferService
+AcmeOrderSyncService
 
 
 Service ≠ Helper.
@@ -90,7 +90,7 @@ Service ≠ Helper.
 
 Si hay múltiples queries complejas:
 
-IagtCounterofferRepository
+AcmeCounterofferRepository
 
 
 Responsable de:
@@ -109,7 +109,7 @@ Contener lógica de negocio
 
 Si hay validación compleja de inputs:
 
-IagtCounterofferValidator
+AcmeCounterofferValidator
 
 
 Responsable de:

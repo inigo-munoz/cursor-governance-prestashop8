@@ -30,7 +30,7 @@ Fecha: {fecha}
 {resumen de proposal.md en 2-3 líneas}
 
 ## Archivos principales
-- `classes/IagtNombreService.php` ← nuevo
+- `classes/AcmeNombreService.php` ← nuevo
 - `modules/vendor_nombre/vendor_nombre.php` ← modificado
 
 ## Governance

@@ -12,8 +12,8 @@ This is a PrestaShop 8.x **legacy** project. These constraints are non-negotiabl
 - **No namespaces** — all classes in global namespace
 - **No Composer autoload** — use `require_once _PS_MODULE_DIR_ . '...'`
 - **No Symfony DI** — use static methods or direct instantiation
-- **Service Layer mandatory** — business logic ONLY in `classes/Iagt*Service.php`
-- **`Iagt` prefix on all custom classes** — `class IagtOrderService {}`, never `class OrderService {}`
+- **Service Layer mandatory** — business logic ONLY in `classes/Acme*Service.php`
+- **`Acme` prefix on all custom classes** — `class AcmeOrderService {}`, never `class OrderService {}`
 - **Multishop always** — every query must filter by `id_shop`
 - **Overrides prohibited** — use hooks; overrides require a documented exception in `exceptions.md`
 
@@ -35,7 +35,7 @@ If unsure about architecture, read `.cursor/rules/governance-stack.mdc` before w
 Allowed without asking:
 - Reading and searching files
 - Creating or editing files in `modules/vendor_*/`
-- Running `iagt-governance validate`
+- Running `cursor-governance validate`
 - Running `/review` or any governance command
 
 ---
@@ -64,11 +64,11 @@ All modules live in `modules/vendor_<name>/`. Structure:
 
 ```
 modules/vendor_name/
-├── vendor_name.php          ← main class (Iagt_Name extends Module)
+├── vendor_name.php          ← main class (Acme_Name extends Module)
 ├── index.php              ← required in EVERY directory
 ├── classes/
 │   ├── index.php
-│   └── IagtNameService.php  ← business logic here
+│   └── AcmeNameService.php  ← business logic here
 ├── controllers/admin/
 ├── controllers/front/
 ├── sql/
@@ -125,6 +125,6 @@ To switch model: click the model selector in Cursor's chat bar before starting t
 ## Verification
 
 ```bash
-iagt-governance doctor    # verify governance setup
-iagt-governance validate  # run governance tests
+cursor-governance doctor    # verify governance setup
+cursor-governance validate  # run governance tests
 ```

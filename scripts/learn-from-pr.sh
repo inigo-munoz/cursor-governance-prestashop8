@@ -10,8 +10,8 @@
 #
 # Requisitos:
 #   - gh CLI instalado y autenticado
-#   - iagt-governance instalado
-#   - IAGT_GOVERNANCE_STACK exportada o detectada por el CLI
+#   - cursor-governance instalado
+#   - ACME_GOVERNANCE_STACK exportada o detectada por el CLI
 
 set -euo pipefail
 
@@ -78,8 +78,8 @@ log_ok "$(echo "$ALL_COMMENTS" | wc -l | tr -d ' ') líneas de comentarios obten
 # ── 2. Determinar ruta al archivo de lecciones aprendidas ─────────────────────
 # Detectar stack desde el CLI si está disponible
 STACK="prestashop"
-if command -v iagt-governance >/dev/null 2>&1; then
-  DETECTED=$(iagt-governance doctor 2>/dev/null | grep "Stack:" | head -1 | awk '{print $2}' || echo "")
+if command -v cursor-governance >/dev/null 2>&1; then
+  DETECTED=$(cursor-governance doctor 2>/dev/null | grep "Stack:" | head -1 | awk '{print $2}' || echo "")
   [ -n "$DETECTED" ] && STACK="$DETECTED"
 fi
 
@@ -113,9 +113,9 @@ if echo "$ALL_COMMENTS" | grep -qiE "override|sobrescrit|sobreescrit"; then
 - **Override**: Se discutió el uso de overrides. Verificar documentación de excepción."
 fi
 
-if echo "$ALL_COMMENTS" | grep -qiE "prefix.*Iagt|prefijo.*Iagt|clase.*sin.*prefijo|class.*without.*prefix"; then
+if echo "$ALL_COMMENTS" | grep -qiE "prefix.*Acme|prefijo.*Acme|clase.*sin.*prefijo|class.*without.*prefix"; then
   PATTERNS_FOUND="${PATTERNS_FOUND}
-- **Prefijo Iagt ausente**: Clases custom sin prefijo Iagt detectadas en revisión."
+- **Prefijo Acme ausente**: Clases custom sin prefijo Acme detectadas en revisión."
 fi
 
 if [ -z "$PATTERNS_FOUND" ]; then

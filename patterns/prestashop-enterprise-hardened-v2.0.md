@@ -22,7 +22,7 @@ if (!defined('_PS_VERSION_')) {
  * Distributed locking service using Redis
  * Prevents race conditions in concurrent operations
  */
-class IagtLockService
+class AcmeLockService
 {
     const DEFAULT_TTL = 30; // seconds
     const RETRY_DELAY_MS = 50;
@@ -38,11 +38,11 @@ class IagtLockService
         if (self::$redis === null) {
             self::$redis = new Redis();
             self::$redis->connect(
-                Configuration::get('IAGT_REDIS_HOST', null, null, null) ?: '127.0.0.1',
-                (int)(Configuration::get('IAGT_REDIS_PORT', null, null, null) ?: 6379)
+                Configuration::get('ACME_REDIS_HOST', null, null, null) ?: '127.0.0.1',
+                (int)(Configuration::get('ACME_REDIS_PORT', null, null, null) ?: 6379)
             );
             
-            $password = Configuration::get('IAGT_REDIS_PASSWORD', null, null, null);
+            $password = Configuration::get('ACME_REDIS_PASSWORD', null, null, null);
             if ($password) {
                 self::$redis->auth($password);
             }
@@ -147,7 +147,7 @@ LUA;
                 'Lock acquisition failed: ' . pSQL($key),
                 2,
                 null,
-                'IagtLockService'
+                'AcmeLockService'
             );
         }
     }
@@ -170,7 +170,7 @@ if (!defined('_PS_VERSION_')) {
  * SAP Stock Service with reservation support
  * Implements idempotent operations with distributed locking
  */
-class IagtSapStockService
+class AcmeSapStockService
 {
     const RESERVATION_TTL = 300; // 5 minutes
     const REQUEST_TIMEOUT = 10;
@@ -197,7 +197,7 @@ class IagtSapStockService
         // Acquire lock for this cart
         $lockKey = 'sap:reserve:cart:' . (int)$idCart;
         
-        return IagtLockService::withLock($lockKey, function() use ($idCart, $products, $idempotencyKey) {
+        return AcmeLockService::withLock($lockKey, function() use ($idCart, $products, $idempotencyKey) {
             // Double-check after acquiring lock
             $existing = self::getExistingReservation($idempotencyKey);
             if ($existing !== null) {
@@ -228,7 +228,7 @@ class IagtSapStockService
         // Lock by reservation to prevent double confirm
         $lockKey = 'sap:confirm:' . $reservationId;
 
-        $result = IagtLockService::withLock($lockKey, function() use ($reservationId, $idOrder) {
+        $result = AcmeLockService::withLock($lockKey, function() use ($reservationId, $idOrder) {
             return self::callSapConfirm($reservationId, $idOrder);
         }, 30);
 
@@ -383,8 +383,8 @@ class IagtSapStockService
      */
     private static function doRequest($endpoint, $method, array $payload = null)
     {
-        $baseUrl = Configuration::get('IAGT_SAP_URL');
-        $apiKey = Configuration::get('IAGT_SAP_API_KEY');
+        $baseUrl = Configuration::get('ACME_SAP_URL');
+        $apiKey = Configuration::get('ACME_SAP_API_KEY');
 
         if (!$baseUrl || !$apiKey) {
             self::logError('SAP configuration missing');
@@ -460,7 +460,7 @@ class IagtSapStockService
                 'SAP: ' . $message,
                 $severity,
                 null,
-                'IagtSapStockService'
+                'AcmeSapStockService'
             );
         }
     }
@@ -472,8 +472,8 @@ class IagtSapStockService
         if ($redis === null) {
             $redis = new Redis();
             $redis->connect(
-                Configuration::get('IAGT_REDIS_HOST') ?: '127.0.0.1',
-                (int)(Configuration::get('IAGT_REDIS_PORT') ?: 6379)
+                Configuration::get('ACME_REDIS_HOST') ?: '127.0.0.1',
+                (int)(Configuration::get('ACME_REDIS_PORT') ?: 6379)
             );
         }
         
@@ -494,16 +494,16 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
-require_once _PS_MODULE_DIR_ . 'vendor_sapstock/classes/IagtLockService.php';
-require_once _PS_MODULE_DIR_ . 'vendor_sapstock/classes/IagtSapStockService.php';
+require_once _PS_MODULE_DIR_ . 'vendor_sapstock/classes/AcmeLockService.php';
+require_once _PS_MODULE_DIR_ . 'vendor_sapstock/classes/AcmeSapStockService.php';
 
-class Iagt_Sapstock extends Module
+class Acme_Sapstock extends Module
 {
     public function __construct()
     {
         $this->name = 'vendor_sapstock';
         $this->version = '1.0.0';
-        $this->author = 'IAGT';
+        $this->author = 'Acme';
         $this->need_instance = 0;
         $this->bootstrap = true;
 
@@ -557,7 +557,7 @@ class Iagt_Sapstock extends Module
         }
 
         // Reserve stock in SAP (with locking + idempotency)
-        $reservation = IagtSapStockService::reserveStock($idCart, $products);
+        $reservation = AcmeSapStockService::reserveStock($idCart, $products);
 
         if ($reservation === null) {
             throw new PrestaShopException(
@@ -589,7 +589,7 @@ class Iagt_Sapstock extends Module
         }
 
         // Confirm reservation
-        $confirmed = IagtSapStockService::confirmReservation(
+        $confirmed = AcmeSapStockService::confirmReservation(
             $reservationId,
             (int)$order->id
         );
@@ -600,7 +600,7 @@ class Iagt_Sapstock extends Module
                 'SAP reservation confirm failed: ' . pSQL($reservationId) . ' for order ' . (int)$order->id,
                 3,
                 null,
-                'Iagt_Sapstock'
+                'Acme_Sapstock'
             );
         }
 
@@ -625,7 +625,7 @@ if (!defined('_PS_VERSION_')) {
 /**
  * Rate-limited logging to prevent log flooding
  */
-class IagtRateLimitedLogger
+class AcmeRateLimitedLogger
 {
     const DEFAULT_WINDOW = 60; // seconds
     const DEFAULT_MAX_PER_WINDOW = 5;
@@ -663,7 +663,7 @@ class IagtRateLimitedLogger
                 '[' . $category . '] ' . $message,
                 $severity,
                 null,
-                'IagtRateLimitedLogger'
+                'AcmeRateLimitedLogger'
             );
         } elseif ($count === $maxPerWindow + 1) {
             // Log once that we're suppressing
@@ -671,7 +671,7 @@ class IagtRateLimitedLogger
                 '[' . $category . '] Rate limit reached, suppressing further logs',
                 1,
                 null,
-                'IagtRateLimitedLogger'
+                'AcmeRateLimitedLogger'
             );
         }
     }
@@ -696,7 +696,7 @@ class IagtRateLimitedLogger
                 '[' . $category . '] ' . $message,
                 $severity,
                 null,
-                'IagtRateLimitedLogger'
+                'AcmeRateLimitedLogger'
             );
         }
     }
@@ -708,8 +708,8 @@ class IagtRateLimitedLogger
         if ($redis === null) {
             $redis = new Redis();
             $redis->connect(
-                Configuration::get('IAGT_REDIS_HOST') ?: '127.0.0.1',
-                (int)(Configuration::get('IAGT_REDIS_PORT') ?: 6379)
+                Configuration::get('ACME_REDIS_HOST') ?: '127.0.0.1',
+                (int)(Configuration::get('ACME_REDIS_PORT') ?: 6379)
             );
         }
         
@@ -820,7 +820,7 @@ public function hookDisplayHeader($params)
         // Logic
     } catch (Exception $e) {
         // Log but don't throw
-        IagtRateLimitedLogger::log('hook_display', $e->getMessage(), 2);
+        AcmeRateLimitedLogger::log('hook_display', $e->getMessage(), 2);
         return '';
     }
 }
@@ -832,7 +832,7 @@ public function hookDisplayHeader($params)
 // Throwing exceptions IS allowed to abort operations
 public function hookActionBeforeValidateOrder($params)
 {
-    $result = IagtSapStockService::reserveStock(...);
+    $result = AcmeSapStockService::reserveStock(...);
     
     if ($result === null) {
         // Throw to abort order - this IS the expected behavior
@@ -854,13 +854,13 @@ Required in `ps_configuration`:
 
 ```php
 // Redis
-'IAGT_REDIS_HOST' => '127.0.0.1'
-'IAGT_REDIS_PORT' => '6379'
-'IAGT_REDIS_PASSWORD' => '' // Optional
+'ACME_REDIS_HOST' => '127.0.0.1'
+'ACME_REDIS_PORT' => '6379'
+'ACME_REDIS_PASSWORD' => '' // Optional
 
 // SAP
-'IAGT_SAP_URL' => 'https://sap.example.com/api'
-'IAGT_SAP_API_KEY' => '***' // Store securely
+'ACME_SAP_URL' => 'https://sap.example.com/api'
+'ACME_SAP_API_KEY' => '***' // Store securely
 ```
 
 ---
@@ -868,8 +868,8 @@ Required in `ps_configuration`:
 # 9. Checklist Enterprise Hardened
 
 - [ ] Redis connection configured and tested
-- [ ] IagtLockService available in shared classes
-- [ ] IagtRateLimitedLogger used for all external API logs
+- [ ] AcmeLockService available in shared classes
+- [ ] AcmeRateLimitedLogger used for all external API logs
 - [ ] AJAX endpoints validate POST method
 - [ ] External API responses validated against schema
 - [ ] SAP integration uses reservation pattern

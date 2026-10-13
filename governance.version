@@ -1,6 +1,6 @@
 # GOVERNANCE VERSION
 # Este archivo define la versión exacta de governance activa en el proyecto
-# NO EDITAR MANUALMENTE - Generado por iagt-governance apply
+# NO EDITAR MANUALMENTE - Generado por cursor-governance apply
 
 # Versiones de governance (tag o ref)
 CORE_VERSION=v2.2.0

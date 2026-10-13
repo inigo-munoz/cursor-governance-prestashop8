@@ -8,17 +8,17 @@ Este documento explica cómo configurar un proyecto PrestaShop para que Cursor u
 
 ```bash
 # Setup inicial (proyecto nuevo)
-iagt-governance init --stack prestashop --core v2.1.1 --stack-version v2.2.0
+cursor-governance init --stack prestashop --core v2.1.1 --stack-version v2.2.0
 cursor-governance apply
 
 # Actualizar governance
-iagt-governance update
-iagt-governance bump --core vX.X.X --stack vX.X.X
+cursor-governance update
+cursor-governance bump --core vX.X.X --stack vX.X.X
 cursor-governance apply
-iagt-governance verify
+cursor-governance verify
 
 # Verificar configuración
-iagt-governance doctor
+cursor-governance doctor
 ```
 
 ---
@@ -31,9 +31,9 @@ Si el CLI no está disponible:
 
 ## Modelo de integración
 
-La governance vive en el catálogo local de la máquina: `~/.iagt/governance/`.
+La governance vive en el catálogo local de la máquina: `~/.cursor-governance/`.
 
-El proyecto solo contiene `.iagt-governance.yml` (el pin de versión/fuentes).
+El proyecto solo contiene `.cursor-governance.yml` (el pin de versión/fuentes).
 
 `cursor-governance apply` genera tres cosas en `.cursor/`:
 
@@ -67,7 +67,7 @@ ls .cursor/rules/
 # governance-security.mdc → globs: *.php,*.tpl (solo PHP/Smarty)
 ls .cursor/commands/   # commands del stack (/review, /security-check, ...)
 ls .cursor/skills/     # skills para carga dinámica por el agente
-ls .cursor/hooks.json  # hook stop → iagt-governance validate
+ls .cursor/hooks.json  # hook stop → cursor-governance validate
 ```
 
 ### 2.2 .cursorignore
@@ -91,7 +91,7 @@ Para regenerar desde cero: eliminar `.cursorignore` y ejecutar `cursor-governanc
 | `beforeReadFile` | `governance-secrets-redact.sh` | Redacta credenciales y API keys antes de enviarlas al LLM |
 | `beforeShellExecution` | `governance-shell-guard.sh` | Bloquea `git push --force`, `rm -rf` en dirs críticos, SQL destructivo |
 | `afterFileEdit` | `governance-php-scan.sh` | Detecta raw superglobals y SQL sin sanitizar en PHP recién editado |
-| `stop` | `governance-stop.sh` | Ejecuta `iagt-governance validate` al terminar cada sesión |
+| `stop` | `governance-stop.sh` | Ejecuta `cursor-governance validate` al terminar cada sesión |
 
 Los hooks `beforeReadFile` y `beforeShellExecution` son deterministas — no pasan por el LLM.
 Para depurar: View → Output → Hooks en Cursor.
@@ -174,7 +174,7 @@ proyecto/
 │   └── rules/
 │       └── governance-stack.mdc
 ├── .cursorignore
-├── .iagt-governance.yml
+├── .cursor-governance.yml
 ├── modules/
 ├── src/
 └── ...
@@ -195,7 +195,7 @@ proyecto/
 ## Checklist de verificación
 
 ```
-[ ] `.iagt-governance.yml` presente en el proyecto
+[ ] `.cursor-governance.yml` presente en el proyecto
 [ ] `cursor-governance apply` ejecutado
 [ ] `.cursor/rules/governance-stack.mdc` generado
 [ ] .cursorignore configurado
@@ -230,7 +230,7 @@ pipelines:
           name: Verify Governance
           script:
             - cursor-governance apply
-            - iagt-governance verify
+            - cursor-governance verify
 ```
 
 ### GitHub Actions
@@ -246,7 +246,7 @@ jobs:
       - name: Verify Governance
         run: |
           cursor-governance apply
-          iagt-governance verify
+          cursor-governance verify
 ```
 
 
@@ -330,7 +330,7 @@ jobs:
       - name: Commit learned patterns
         run: |
           git config user.name "governance-bot"
-          git config user.email "governance@iagt.com"
+          git config user.email "governance@example.com"
           git add lessons/learned-patterns.md
           git diff --staged --quiet || git commit -m "governance: learned patterns from PR #${{ github.event.pull_request.number }}"
           git push

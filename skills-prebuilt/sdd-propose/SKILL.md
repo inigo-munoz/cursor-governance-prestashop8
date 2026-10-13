@@ -41,18 +41,18 @@ Si el developer ya respondió estas preguntas en el explore o en el comando inic
 
 ### 3. Definir la propuesta
 
-Valida cada decisión contra las convenciones IAGT:
+Valida cada decisión contra las convenciones del proyecto:
 
 **Arquitectura:**
 - ¿Módulo nuevo o extensión de existente?
-- ¿Qué `Iagt*Service.php` se necesitan?
+- ¿Qué `Acme*Service.php` se necesitan?
 - ¿Qué hooks (nunca overrides salvo excepción documentada)?
 - ¿Qué tablas nuevas con `id_shop`?
 - ¿Qué endpoints AJAX si aplica?
 
 **Validación governance:**
 - ✅/❌ Toda lógica en Service Layer
-- ✅/❌ Prefijo `Iagt` en clases custom
+- ✅/❌ Prefijo `Acme` en clases custom
 - ✅/❌ Toda query con `id_shop`
 - ✅/❌ Sin overrides de core
 
@@ -72,13 +72,13 @@ Estado: PENDIENTE APROBACIÓN
 **IN:** {qué incluye}
 **OUT:** {qué excluye explícitamente}
 
-## Arquitectura IAGT
+## Arquitectura del proyecto
 
 ### Módulos
 - {módulo}: {qué hace}
 
 ### Service Layer
-- `IagtNombreService` → {responsabilidades}
+- `AcmeNombreService` → {responsabilidades}
   - `metodo1($params)` → {qué hace}
   - `metodo2($params)` → {qué hace}
 
@@ -94,7 +94,7 @@ Estado: PENDIENTE APROBACIÓN
 ## Validación governance
 - Service Layer: ✅
 - Multishop (id_shop): ✅
-- Prefijos Iagt: ✅
+- Prefijos Acme: ✅
 - Sin overrides: ✅
 
 ## Riesgos

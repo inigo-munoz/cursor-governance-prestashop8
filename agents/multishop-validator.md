@@ -55,12 +55,12 @@ CREATE TABLE IF NOT EXISTS `ps_vendor_nueva` (
 
 ```php
 // ❌ Configuración global cuando debería ser por tienda
-Configuration::updateValue('IAGT_PRECIO', $precio);
-Configuration::get('IAGT_PRECIO');
+Configuration::updateValue('ACME_PRECIO', $precio);
+Configuration::get('ACME_PRECIO');
 
 // ✅ Configuración por tienda
-Configuration::updateValue('IAGT_PRECIO', $precio, false, null, (int)$idShop);
-Configuration::get('IAGT_PRECIO', null, null, (int)$idShop);
+Configuration::updateValue('ACME_PRECIO', $precio, false, null, (int)$idShop);
+Configuration::get('ACME_PRECIO', null, null, (int)$idShop);
 ```
 
 Excepción: configuraciones genuinamente globales (URL de API, credenciales compartidas). Documentar en el código.

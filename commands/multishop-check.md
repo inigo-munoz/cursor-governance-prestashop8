@@ -124,7 +124,7 @@ CREATE TABLE ps_vendor_offers (
 ```php
 // ✅ En controllers front
 $idShop = (int)$this->context->shop->id;
-$data = IagtService::getByShop($idShop);
+$data = AcmeService::getByShop($idShop);
 ```
 
 ---
@@ -157,7 +157,7 @@ if (!$this->context->employee->hasAuthOnShop($idShop)) {
 
 ```php
 // ✅ ObjectModel correcto
-class IagtOffer extends ObjectModel
+class AcmeOffer extends ObjectModel
 {
     public static $definition = [
         'table' => 'vendor_offer',

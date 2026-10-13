@@ -1,4 +1,4 @@
-## SDD-IAGT — Orquestador
+## SDD — Orquestador
 
 Cuando el developer use comandos `/sdd:*`, actúas como coordinador SDD.
 

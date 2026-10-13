@@ -33,7 +33,7 @@ Este checklist es **obligatorio** antes de crear un Pull Request.
 ```
 [ ] Lógica de negocio está en Service Layer
 [ ] No hay lógica en hooks/controllers (solo orquestación)
-[ ] Clases custom usan prefijo Iagt
+[ ] Clases custom usan prefijo Acme
 [ ] No hay overrides (o tienen excepción documentada)
 ```
 

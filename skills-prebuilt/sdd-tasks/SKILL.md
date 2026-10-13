@@ -44,7 +44,7 @@ Generado: {fecha}
 ## Bloque 2 — Service Layer
 *Requiere: Bloque 1*
 
-- [ ] T04: Crear `classes/IagtNombreService.php` con constructor
+- [ ] T04: Crear `classes/AcmeNombreService.php` con constructor
 - [ ] T05: Implementar `getNombre(int $idShop, int $idLang)`
 - [ ] T06: Implementar `createNombre(array $data, int $idShop)`
 - [ ] T07: Implementar `updateNombre(int $id, array $data, int $idShop)`

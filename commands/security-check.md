@@ -194,7 +194,7 @@ catch (Exception $e) {
 
 | Check | Criterio | Severidad |
 |-------|----------|-----------|
-| Errores de API | Usar `IagtRateLimitedLogger`, no `PrestaShopLogger` directo | 🔴 |
+| Errores de API | Usar `AcmeRateLimitedLogger`, no `PrestaShopLogger` directo | 🔴 |
 | Datos sensibles | Nunca loguear tokens, passwords, datos de tarjeta | 🔴 |
 
 ---
@@ -203,7 +203,7 @@ catch (Exception $e) {
 
 | Check | Criterio | Severidad |
 |-------|----------|-----------|
-| Operaciones críticas | `IagtLockService::withLock($key, fn, $ttl)` obligatorio | 🔴 |
+| Operaciones críticas | `AcmeLockService::withLock($key, fn, $ttl)` obligatorio | 🔴 |
 | Resultado null | Lanzar excepción — nunca proceder sin lock | 🔴 |
 | Lock key | Formato `operation:entity_type:entity_id` | 🟡 |
 

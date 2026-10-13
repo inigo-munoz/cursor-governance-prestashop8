@@ -111,9 +111,9 @@ Cron entrypoints
 Controllers orquestan.
 Services ejecutan lógica.
 
-2️⃣ Prefijo Iagt
+2️⃣ Prefijo Acme
 
-Todas las clases custom deben usar prefijo Iagt.
+Todas las clases custom deben usar prefijo Acme.
 
 3️⃣ Overrides
 

@@ -66,7 +66,7 @@ public function reserveStock($cartId, $products)
 {
     $lockKey = 'stock:reserve:cart:' . (int)$cartId;
     
-    $result = IagtLockService::withLock($lockKey, function() use ($products) {
+    $result = AcmeLockService::withLock($lockKey, function() use ($products) {
         foreach ($products as $productId => $quantity) {
             $stock = $this->getAvailableStock($productId);
             if ($stock < $quantity) {
@@ -135,19 +135,19 @@ $lockKey = 'cron:daily_report'; // Sin ID si es global
 
 ```php
 // ❌ CRÍTICO - Procede sin lock
-$token = IagtLockService::acquire($key);
+$token = AcmeLockService::acquire($key);
 if (!$token) {
     // ❌ Continúa de todos modos
     $this->processAnyway();
 }
 
 // ✅ CORRECTO - Bloquea sin lock
-$result = IagtLockService::withLock($key, function() {
+$result = AcmeLockService::withLock($key, function() {
     return $this->criticalOperation();
 }, 30);
 
 if ($result === null) {
-    IagtRateLimitedLogger::log('lock_fail', 'Could not acquire: ' . $key, 2);
+    AcmeRateLimitedLogger::log('lock_fail', 'Could not acquire: ' . $key, 2);
     throw new PrestaShopException('Please try again in a moment');
 }
 ```
@@ -178,7 +178,7 @@ public function confirmReservation($reservationId, $orderId)
     // 3. Procesar con lock
     $lockKey = 'sap:confirm:' . $reservationId;
     
-    return IagtLockService::withLock($lockKey, function() use ($reservationId, $orderId, $idempotencyKey) {
+    return AcmeLockService::withLock($lockKey, function() use ($reservationId, $orderId, $idempotencyKey) {
         // Double-check después de adquirir lock
         $existing = $this->getStoredResult($idempotencyKey);
         if ($existing !== null) {
@@ -213,16 +213,16 @@ public function hookActionBeforeValidateOrder($params)
     $cart = $params['cart'];
     $lockKey = 'checkout:cart:' . (int)$cart->id;
     
-    $result = IagtLockService::withLock($lockKey, function() use ($cart) {
+    $result = AcmeLockService::withLock($lockKey, function() use ($cart) {
         // Verificar stock dentro del lock
         foreach ($cart->getProducts() as $product) {
-            if (!IagtStockService::checkAvailability($product['id_product'], $product['cart_quantity'])) {
+            if (!AcmeStockService::checkAvailability($product['id_product'], $product['cart_quantity'])) {
                 return ['success' => false, 'error' => 'stock_unavailable'];
             }
         }
         
         // Reservar en SAP
-        $reservation = IagtSapService::reserveStock($cart->id, $cart->getProducts());
+        $reservation = AcmeSapService::reserveStock($cart->id, $cart->getProducts());
         if (!$reservation) {
             return ['success' => false, 'error' => 'reservation_failed'];
         }
@@ -251,13 +251,13 @@ public function hookActionBeforeValidateOrder($params)
 // cron/sync_stock.php
 $lockKey = 'cron:stock_sync';
 
-$result = IagtLockService::withLock($lockKey, function() {
-    IagtStockSyncService::syncAll();
+$result = AcmeLockService::withLock($lockKey, function() {
+    AcmeStockSyncService::syncAll();
     return true;
 }, 300); // 5 minutos
 
 if ($result === null) {
-    IagtRateLimitedLogger::log('cron', 'stock_sync already running, skipped', 1);
+    AcmeRateLimitedLogger::log('cron', 'stock_sync already running, skipped', 1);
 }
 ```
 
@@ -295,8 +295,8 @@ if ($result === null) {
 
 Este nivel de protección requiere:
 - Redis disponible en producción
-- `IagtLockService` implementado
-- `IagtRateLimitedLogger` implementado
+- `AcmeLockService` implementado
+- `AcmeRateLimitedLogger` implementado
 
 Ver `patterns/prestashop-enterprise-hardened-v2.0.md` para implementación completa.
 

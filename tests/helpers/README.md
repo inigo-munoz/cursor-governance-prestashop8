@@ -49,7 +49,7 @@ skills_dir="$STACK_ROOT/skills"
 
 El helper utiliza `BASH_SOURCE[0]` para determinar su propia ubicación, de modo que `STACK_ROOT` se resuelve correctamente cuando los tests se ejecutan:
 
-- desde el CLI (`iagt-governance validate`),
+- desde el CLI (`cursor-governance validate`),
 - desde pipelines de CI,
 - o directamente desde el directorio de tests.
 

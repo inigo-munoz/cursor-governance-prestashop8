@@ -36,7 +36,7 @@ Basada en: proposal.md (aprobada)
 
 ## Contratos de Service Layer
 
-### IagtNombreService
+### AcmeNombreService
 
 ```php
 /**
